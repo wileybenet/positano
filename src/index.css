@@ -4,19 +4,22 @@
   font-weight: 400;
   src: url('/Italianno-Regular.otf');
 }
+@font-face {
+  font-family: 'Zapfino';
+  font-style: normal;
+  font-weight: normal;
+  src: url('/Zapfino.woff') format('woff');
+}
 
 body {
   margin: 0;
   padding: 0;
-  font-family: Italianno, sans-serif;
-  font-weight: 400;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   background: url('/images/');
   background-size: cover;
 }
 
-h2 {
-  font-weight: 400;
-  font-style: normal;
-  font-family: Italianno, sans-serif;
+html, body, #root, #root > div, #root > div > div {
+  height: 100%;
 }

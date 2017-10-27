@@ -1,21 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {SITE_NAME} from '../copy.js';
 import './Nav.css';
 
-export default function Nav({children}) {
+export default function Nav({theme: {colorScheme = 'light'}, children}) {
   return (
-    <div className="nav">
-      <div className="title">
-        <Link to="/">{SITE_NAME}</Link>
-      </div>
+    <div className={`nav ${colorScheme}`}>
+      <NavLink className="title" to="/" exact>{SITE_NAME}</NavLink>
       <div className="nav-left">
-        <Link className="nav-el" to="/wedding">Wedding</Link>
-        <Link className="nav-el" to="/location">Location</Link>
+        <NavLink className="nav-el" to="/wedding">Wedding</NavLink>
+        <NavLink className="nav-el" to="/location">Location</NavLink>
       </div>
       <div className="nav-right">
-        <Link className="nav-el" to="/itinerary">Itinerary</Link>
-        <Link className="nav-el" to="/photos">Photos</Link>
+        <NavLink className="nav-el" to="/itinerary">Itinerary</NavLink>
+        <NavLink className="nav-el" to="/photos">Photos</NavLink>
       </div>
     </div>
   );

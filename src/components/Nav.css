@@ -1,0 +1,73 @@
+.nav {
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  top: 5px;
+  z-index: 0;
+}
+.nav-left, .nav-right {
+  position: absolute;
+  top: 0;
+  padding: 20px;
+  width: 300px;
+}
+.nav-left {
+  right: 50%;
+  margin-right: 94px;
+  text-align: left;
+}
+.nav-right {
+  left: 50%;
+  margin-left: 94px;
+  text-align: right;
+}
+.nav .title {
+  position: relative;
+  text-decoration: none;
+  font-size: 26px;
+  top: 5px;
+}
+.nav .title.active::after, .nav .title:hover::after {
+  content: ' ';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  bottom: 20px;
+  left: 0;
+}
+.nav .nav-el {
+  text-decoration: none;
+  font-size: 16px;
+  padding: 0 3px;
+  margin: 0 17px;
+  position: relative;
+}
+.nav .nav-el.active::after, .nav .nav-el:hover::after {
+  content: ' ';
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  top: 40px;
+  left: 0;
+}
+.nav .nav-el::after {
+  bottom: 6px !important;
+}
+
+.nav a {
+  font-family: Zapfino, sans-serif;
+  font-weight: 400;
+}
+
+.nav.light a {
+  color: #FFF;
+}
+.nav.dark a {
+  color: #000;
+}
+.nav.light a::after {
+  background: #FFF;
+}
+.nav.dark a::after {
+  background: #000;
+}

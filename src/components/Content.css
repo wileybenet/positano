@@ -1,0 +1,15 @@
+.content {
+  width: 520px;
+  margin: 20px auto;
+}
+
+.content-backdrop {
+  position: absolute;
+  width: 1400px;
+  top: -200px;
+  left: 50%;
+  margin-left: -600px;
+  z-index: -1;
+  opacity: 0.15;
+  display: none;
+}
