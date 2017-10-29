@@ -23,3 +23,11 @@ body {
 html, body, #root, #root > div, #root > div > div {
   height: 100%;
 }
+
+.switch-wrapper {
+  position: relative;
+}
+.switch-wrapper > div {
+  position: absolute;
+  width: 100%;
+}

@@ -10,14 +10,15 @@ preloadJPG(IMAGE);
 
 export default function Location() {
   return (
-    <Layout theme={{colorScheme: 'dark', image: IMAGE, height: 2500, speed: 1.25}}>
+    <Layout theme={{colorScheme: 'dark', image: IMAGE, height: 2500, speed: 1.5}}>
       <Content>
         <Heading>
           Travel
         </Heading>
         <Copy>
           From what we have read, riding in a bus anywhere on the Amalfi coast is a stomach-turning, and frightening experience. The coast is full of twists and turns, on very steep cliffs, and is not recommended for those with motion sickness. For this reason (and also for Pompeii) we recommend taking a train from wherever you are arriving, to Salerno, where you can catch a direct ferry to Positano. Naples is the closest city, but if you plan on doing some exploring before or after, Italy has an extensive train system which makes it easy to get to Naples.
-
+        </Copy>
+        <Copy>
           Renting a car is another option, although Positano has almost no streets accessible to cars. All the streets are for pedestrians. And anywhere you choose to explore along the coast is accessed easier by ferry or taxi boat than by car.
         </Copy>
         <Heading>
@@ -45,7 +46,7 @@ export default function Location() {
           </li>
           <li>
             <Copy>
-              Swimming. The seawater in September is still plenty warm enough to swim in, with daytime temperatures in the 70’s and low 80’s. Positano has two main beaches, marina grande which is bigger and busier, and Fornillo beach which is quieter. To get to Fornillo, is a beautiful trek along the cliffs of Positano. The smaller beach of Arienzo is also quiet, secluded and slightly more difficult to get to.
+              Swimming. The seawater in September is still plenty warm enough to swim in, with daytime temperatures in the 70’s and low 80’s. Positano has two main beaches, marina grande which is bigger and busier, and Fornillo beach which is quieter. To get to Fornillo, you take a beautiful trek along the cliffs of Positano. A smaller beach slightly outside of the cityscape; Arienzo, which is quiet, secluded and a beautiful hike to get to.
             </Copy>
           </li>
           <li>
@@ -55,10 +56,19 @@ export default function Location() {
           </li>
           <li>
             <Copy>
-              Stop at Pompei on your way to Positano.
+              Stop at Pompeii on your way to/from Positano. The easiest (and smoothest) way to get to Positano from Naples is a train to Salerno and then a ferry to Positano. Pompeii is on the train route from Naples to Salerno. Since you’re already passing through, it’s a great chance to see Pompeii. Also, there are many places in Pompeii to check your luggage while you explore.
             </Copy>
           </li>
         </ul>
+        <Heading>
+          Travel
+        </Heading>
+        <Copy>
+          From what we have read, riding in a bus anywhere on the Amalfi coast is a stomach-turning, and frightening experience. The coast is full of twists and turns, on very steep cliffs, and is not recommended for those with motion sickness. For this reason (and also for Pompeii) we recommend taking a train from wherever you are arriving, to Salerno, where you can catch a direct ferry to Positano. Naples is the closest city, but if you plan on doing some exploring before or after, Italy has an extensive train system which makes it easy to get to Naples.
+        </Copy>
+        <Copy>
+          Renting a car is another option, although Positano has almost no streets accessible to cars. All the streets are for pedestrians. And anywhere you choose to explore along the coast is accessed easier by ferry or taxi boat than by car.
+        </Copy>
       </Content>
     </Layout>
   );

@@ -5,7 +5,7 @@ import './Nav.css';
 
 export default function Nav({theme: {colorScheme = 'light'}, children}) {
   return (
-    <div className={`nav ${colorScheme}`}>
+    <div className={`nav ${colorScheme}`} id="nav-bar">
       <NavLink className="title" to="/" exact>{SITE_NAME}</NavLink>
       <div className="nav-left">
         <NavLink className="nav-el" to="/wedding">Wedding</NavLink>

@@ -10,6 +10,21 @@ function scroll() {
   });
 }
 
+let over = false;
+window.addEventListener('scroll', evt => {
+  const currentScroll = window.pageYOffset;
+  const pageHeight = window.innerHeight - 80;
+  if (currentScroll > pageHeight) {
+    if (!over) {
+      document.getElementById('nav-bar').classList.add('over');
+      over = true;
+    }
+  } else if (over) {
+    document.getElementById('nav-bar').classList.remove('over');
+    over = false;
+  }
+});
+
 export default function Layout({theme, children}) {
   return (
     <div className="page-container">
