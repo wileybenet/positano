@@ -29,7 +29,7 @@
   font-size: 26px;
   top: 5px;
 }
-.nav .title.active::after, .nav .title:hover::after {
+.nav .title.active::after {
   content: ' ';
   position: absolute;
   width: 100%;
@@ -44,13 +44,15 @@
   margin: 0 17px;
   position: relative;
 }
-.nav .nav-el.active::after, .nav .nav-el:hover::after {
+.nav .nav-el.active::after {
   content: ' ';
   position: absolute;
   width: 100%;
   height: 1px;
   top: 40px;
   left: 0;
+  transition: background 0.8s;
+  -webkit-transition: background 0.8s;
 }
 .nav .nav-el::after {
   bottom: 6px !important;
@@ -59,6 +61,46 @@
 .nav a {
   font-family: Zapfino, sans-serif;
   font-weight: 400;
+  transition: color 0.8s;
+  -webkit-transition: color 0.8s;
+}
+
+.mobile-title {
+  display: none;
+  position: absolute;
+  width: 100%;
+  top: 80px;
+  text-align: center;
+  font-family: Zapfino, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  opacity: 1;
+  transition: opacity 0.5s;
+  -webkit-transition: opacity 0.5s;
+}
+
+.light .mobile-title {
+  color: #FFF;
+}
+.dark .mobile-title {
+  color: #000;
+}
+
+.nav .mobile-menu button {
+  display: none;
+  position: fixed;
+  top: 24px;
+  left: 16px;
+  background: transparent;
+  border: 0px;
+}
+.nav .mobile-menu button > div {
+  width: 30px;
+  height: 3px;
+  border-radius: 3px;
+  margin-top: 6px;
+  transition: background 0.8s;
+  -webkit-transition: background 0.8s;
 }
 
 .nav.light a {
@@ -67,13 +109,94 @@
 .nav.dark a {
   color: #000;
 }
-.nav.light a::after {
+.nav.light a::after, .nav.light .mobile-menu button > div {
   background: #FFF;
 }
-.nav.dark a::after {
+.nav.dark a::after, .nav.dark .mobile-menu button > div {
   background: #000;
 }
 
-.nav.over {
+.nav.over, .nav.force-over {
   background: rgba(255,255,255,0.85);
+}
+.nav.over a, .nav.force-over a {
+  color: #000;
+}
+.nav.over .mobile-menu button > div, .nav.force-over .mobile-menu button > div,
+.nav.over a::after, .nav.force-over a::after {
+  background: #000;
+}
+
+.nav.over .mobile-title, .nav.force-over .mobile-title {
+  opacity: 0;
+}
+
+@media only screen and (max-width: 500px) {
+  .nav {
+    padding-bottom: 14px;
+  }
+  .nav .title {
+    font-size: 20px;
+    top: 15px;
+  }
+
+  .mobile-title {
+    display: block;
+  }
+
+  .nav .click-trap {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+  }
+  .nav .mobile-menu {
+    position: fixed;
+    top: 82px;
+    width: 100%;
+    z-index: 10000;
+  }
+  .nav .mobile-menu button {
+    display: block;
+  }
+  .nav .mobile-menu .nav-left, .nav .mobile-menu .nav-right {
+    position: relative;
+    top: auto;
+    padding: 0;
+    width: auto;
+    left: auto;
+    right: auto;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+  .nav .mobile-menu .nav-el {
+    display: block;
+    font-size: 14px;
+    padding: 5px 20px;
+    margin: auto;
+    color: #000;
+    margin-left: -100%;
+    width: 100%;
+    background: transparent;
+    box-sizing: border-box;
+    transition: margin-left 0.4s, background 0.8s;
+    -webkit-transition: margin-left 0.4s, background 0.8s;
+  }
+  .nav .mobile-menu.open .nav-el {
+    margin-left: 0px;
+    background: rgba(255,255,255,0.85);
+  }
+  .nav .mobile-menu.open .nav-left .nav-el:nth-child(2) {
+    -webkit-transition-delay: 0.1s;
+    transition-delay: 0.1s;
+  }
+  .nav .mobile-menu.open .nav-right .nav-el:nth-child(1) {
+    -webkit-transition-delay: 0.2s;
+    transition-delay: 0.2s;
+  }
+  .nav .mobile-menu.open .nav-right .nav-el:nth-child(2) {
+    -webkit-transition-delay: 0.3s;
+    transition-delay: 0.3s;
+  }
 }

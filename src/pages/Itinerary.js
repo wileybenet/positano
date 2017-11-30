@@ -7,7 +7,7 @@ preloadJPG(IMAGE);
 
 export default function Itinerary() {
   return (
-    <Layout theme={{colorScheme: 'dark', image: IMAGE, height: 1100, speed: 6}}>
+    <Layout title="Itinerary" theme={{colorScheme: 'dark', image: IMAGE, height: 1100, speed: 6}}>
       Itinerary
     </Layout>
   );

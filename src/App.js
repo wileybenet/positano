@@ -12,9 +12,11 @@ import Index from './pages/Index';
 import Wedding from './pages/Wedding';
 import Location from './pages/Location';
 import Itinerary from './pages/Itinerary';
-import Photos from './pages/Photos';
+import Registry from './pages/Registry';
 
-parallax();
+if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  parallax();
+}
 
 export default function App() {
   return (
@@ -30,7 +32,7 @@ export default function App() {
           <Route location={window.location} path="/wedding" component={Wedding}/>
           <Route location={window.location} path="/location" component={Location}/>
           <Route location={window.location} path="/itinerary" component={Itinerary}/>
-          <Route location={window.location} path="/photos" component={Photos}/>
+          <Route location={window.location} path="/registry" component={Registry}/>
         </AnimatedSwitch>
       </ScrollToTop>
     </Router>

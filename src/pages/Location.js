@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import Content from '../components/Content';
 import Heading from '../components/Heading';
 import Copy from '../components/Copy';
+// import Image from '../components/Image';
 import { preloadJPG } from '../helpers/preload';
 
 const IMAGE = 'beach_view';
@@ -10,7 +11,7 @@ preloadJPG(IMAGE);
 
 export default function Location() {
   return (
-    <Layout theme={{colorScheme: 'dark', image: IMAGE, height: 2500, speed: 1.5}}>
+    <Layout title="Location" theme={{colorScheme: 'dark', image: IMAGE, height: 2500, speed: 1.5}}>
       <Content>
         <Heading>
           Travel
@@ -50,6 +51,7 @@ export default function Location() {
             </Copy>
           </li>
           <li>
+            {/* <Image src="https://www.besthotelsinitaly.com/wp-content/uploads/2017/03/lesirenuse-hotel-positano-1.jpg" alt="Villa Oliviero" /> */}
             <Copy>
               Drinks at Le Sirenuse. Le Sirenuse is a luxury hotel in Positano filled with original artwork and a restaurant famous for it’s food and stunning aesthetics. If you don’t want to pay the big bucks to stay there, the next best thing is a quick stop for dinner or drinks.
             </Copy>
@@ -60,15 +62,6 @@ export default function Location() {
             </Copy>
           </li>
         </ul>
-        <Heading>
-          Travel
-        </Heading>
-        <Copy>
-          From what we have read, riding in a bus anywhere on the Amalfi coast is a stomach-turning, and frightening experience. The coast is full of twists and turns, on very steep cliffs, and is not recommended for those with motion sickness. For this reason (and also for Pompeii) we recommend taking a train from wherever you are arriving, to Salerno, where you can catch a direct ferry to Positano. Naples is the closest city, but if you plan on doing some exploring before or after, Italy has an extensive train system which makes it easy to get to Naples.
-        </Copy>
-        <Copy>
-          Renting a car is another option, although Positano has almost no streets accessible to cars. All the streets are for pedestrians. And anywhere you choose to explore along the coast is accessed easier by ferry or taxi boat than by car.
-        </Copy>
       </Content>
     </Layout>
   );

@@ -25,14 +25,14 @@ window.addEventListener('scroll', evt => {
   }
 });
 
-export default function Layout({theme, children}) {
+export default function Layout({title, theme, children}) {
   return (
     <div className="page-container">
       <div className="image-wrapper" style={{
         backgroundImage: `url('/img/${theme.image}.jpg')`,
         backgroundSize: `auto ${theme.height}px`
       }} data-speed={theme.speed} />
-      <Nav theme={theme} />
+      <Nav title={title} theme={theme} />
       <div className="spacer">
         <div className="splash-footer">
           <div className="cta" onClick={scroll}></div>

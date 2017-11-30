@@ -18,6 +18,8 @@ body {
   font-style: normal;
   background: url('/images/');
   background-size: cover;
+  position:relative;
+  min-height: 100%;
 }
 
 html, body, #root, #root > div, #root > div > div {
@@ -30,4 +32,15 @@ html, body, #root, #root > div, #root > div > div {
 .switch-wrapper > div {
   position: absolute;
   width: 100%;
+}
+
+.big-button {
+  background: #2875f3;
+  display: block;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #FFF;
+  border-radius: 4px;
+  margin: 40px 0;
 }

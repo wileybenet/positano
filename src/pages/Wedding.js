@@ -12,7 +12,7 @@ preloadJPG(IMAGE);
 
 export default function Wedding() {
   return (
-    <Layout theme={{colorScheme: 'dark', image: IMAGE, height: 1100, speed: 6}}>
+    <Layout title="Wedding" theme={{colorScheme: 'dark', image: IMAGE, height: 1100, speed: 6}}>
       <Content>
         <Heading>
           Venue

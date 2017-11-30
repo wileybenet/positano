@@ -43,6 +43,16 @@
   border-right: 3px solid #FFF;
   border-bottom: 3px solid #FFF;
   -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+@media only screen and (max-width: 500px) {
+  .container {
+    padding: 30px;
+    padding-bottom: 80px;
+  }
+  .image-wrapper {
+    background-size: cover !important;
+  }
 }
