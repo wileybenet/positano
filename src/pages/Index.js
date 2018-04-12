@@ -3,10 +3,15 @@ import Layout from '../components/Layout';
 import Content from '../components/Content';
 import Heading from '../components/Heading';
 import Copy from '../components/Copy';
+import RSVP from '../components/RSVP';
 import { preloadJPG } from '../helpers/preload';
 
 const IMAGE = 'city_view';
 preloadJPG(IMAGE);
+
+// const submit = () => {
+//   console.log('submitted');
+// };
 
 export default function Index() {
   return (
@@ -25,6 +30,10 @@ export default function Index() {
         <Copy>
           On this website, you’ll find information about the wedding day, places to stay and
           activities we have planned.
+        </Copy>
+        <Heading>RSVP</Heading>
+        <Copy>
+          <RSVP />
         </Copy>
       </Content>
     </Layout>

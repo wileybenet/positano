@@ -25,7 +25,7 @@ window.addEventListener('scroll', evt => {
   }
 });
 
-export default function Layout({title, theme, children}) {
+export default function Layout({title, theme, noPadding = false, children}) {
   return (
     <div className="page-container">
       <div className="image-wrapper" style={{
@@ -38,7 +38,7 @@ export default function Layout({title, theme, children}) {
           <div className="cta" onClick={scroll}></div>
         </div>
       </div>
-      <div className="container">
+      <div className="container" style={noPadding ? { paddingBottom: '0' } : {}}>
         {children}
       </div>
     </div>

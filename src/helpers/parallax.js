@@ -3,10 +3,10 @@ export default function() {
   let ticking = false;
 
   function parallax(scroll_pos) {
-    const image = document.getElementsByClassName('image-wrapper')[0];
-    const speed = Number(image.attributes['data-speed'].value);
-    if (image) {
-      image.style.backgroundPositionY = `${-scroll_pos / speed - 20}px`;
+    for (const image of document.getElementsByClassName('image-wrapper')) {
+      const speed = Number(image.attributes['data-speed'].value);
+      const offset = image.attributes['data-offset'] ? Number(image.attributes['data-offset'].value) : 0;
+      image.style.backgroundPositionY = `${-scroll_pos / speed - 20 + offset}px`;
     }
   }
 

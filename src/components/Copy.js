@@ -3,5 +3,5 @@ import React from 'react';
 import './Copy.css';
 
 export default function Copy({ children }) {
-  return <p>{children}</p>;
+  return <div className="p">{children}</div>;
 }

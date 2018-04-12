@@ -4,6 +4,7 @@ import Content from '../components/Content';
 import Heading from '../components/Heading';
 import Copy from '../components/Copy';
 import Image from '../components/Image';
+import RSVP from '../components/RSVP';
 import { preloadJPG } from '../helpers/preload';
 
 const IMAGE = 'capri_rock';
@@ -28,6 +29,9 @@ export default function Wedding() {
           The Villa will be our meeting place and hangout for the five days we are in Positano, and
           our door is open to you the whole time. The wedding will take place at 5 pm, we will have
           a very casual Italian dinner afterwards, with lots of drinks and fun.
+        </Copy>
+        <Copy>
+          <RSVP />
         </Copy>
       </Content>
     </Layout>

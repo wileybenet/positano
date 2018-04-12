@@ -43,4 +43,26 @@ html, body, #root, #root > div, #root > div > div {
   color: #FFF;
   border-radius: 4px;
   margin: 40px 0;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+}
+
+.md-button {
+  background: #2875f3;
+  display: block;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  color: #FFF;
+  border-radius: 4px;
+  margin-top: 20px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+  text-transform: uppercase;
+}
+
+.gray-button {
+  background: #444;
 }
