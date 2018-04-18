@@ -1,15 +1,19 @@
 import React from 'react';
 import Input from './Input';
+import Loader from './Loader';
 
 import './RSVP.css';
 
+const API = 'https://woi7gmgcw4.execute-api.us-east-1.amazonaws.com/prod/rsvp';
 const FINAL_CLASS = 'final';
+
 const VERIFY_STEP = 'confirm';
-const CALENDAR_STEP = 'cal';
-const EVENT_STEP = 'event';
 const RSVP_STEP = 'rsvp';
-const SORRY_STEP = 'sorry';
-const STEPS = [VERIFY_STEP, RSVP_STEP, CALENDAR_STEP, EVENT_STEP];
+const CALENDAR_STEP = 'cal';
+const SUCCESS_STEP = 'You\'re RVSP\'d!';
+const SORRY_STEP = 'We\'re bummed!';
+
+const STEPS = [VERIFY_STEP, RSVP_STEP, CALENDAR_STEP];
 
 const DAYS = ['Tuesday, Sept 18th', 'Wednesday, Sept 19th', 'Thursday, Sept 20th', 'Friday, Sept 21st (Wedding)', 'Saturday, Sept 22nd'];
 
@@ -19,8 +23,10 @@ class RSVP extends React.Component {
     this.state = {
       isDialogOpen: false,
       dialogAnimated: false,
-      formStep: CALENDAR_STEP,
+      prevStep: null,
+      formStep: VERIFY_STEP,
       guestName: '<guest name>',
+      totalGuestsAllowed: 1,
       data: {
         rsvpCode: '',
       },
@@ -32,7 +38,8 @@ class RSVP extends React.Component {
     this.prevStep = this.prevStep.bind(this);
     this.submit = this.submit.bind(this);
   }
-  openDialog() {
+  openDialog(evt) {
+    evt.preventDefault();
     document.body.style.overflow = 'hidden';
     this.setState({
       isDialogOpen: true,
@@ -41,26 +48,27 @@ class RSVP extends React.Component {
       dialogAnimated: FINAL_CLASS,
     }), 50);
   }
-  closeDialog() {
+  closeDialog(evt) {
+    evt.preventDefault();
     document.body.style.overflow = 'visible';
     this.setState({
       isDialogOpen: false,
       dialogAnimated: false,
+      formStep: VERIFY_STEP,
     });
   }
   set(key, pred = x => x) {
     return evt => this.setState({
       data: {
         ...this.state.data,
-        [key]: evt.target.value === '$$infer' ? evt.target.checked : pred(evt.target.value),
+        [key]: pred(evt.target.value === '$$infer' ? evt.target.checked : evt.target.value),
       },
     });
   }
   prevStep(evt) {
     evt.preventDefault();
-    const index = STEPS.indexOf(this.state.formStep);
     this.setState({
-      formStep: STEPS[index - 1],
+      formStep: STEPS[STEPS.indexOf(this.state.formStep) - 1],
       error: {},
     });
   }
@@ -71,166 +79,214 @@ class RSVP extends React.Component {
       this.state.data.day3,
       this.state.data.day4,
       this.state.data.day5,
-    ]).map((x, i) => x && i + 1).filter(x => x);
+    ]).filter(x => x);
   }
-  submit(evt) {
+  async validate(code) {
+    this.setState({ loading: true });
+    const response = await fetch(`${API}?code=${code}`, {
+      mode: 'cors',
+    });
+    this.setState({ loading: false });
+    const { status } = response;
+    if (status === 200) {
+      const body = await response.json();
+      return body.guest;
+    } else if (status === 404) {
+      throw new Error(`"${code}" is an invalid code, please check your invite`);
+    } else if (status === 400) {
+      throw new Error('Your code is required in order to continue');
+    }
+    throw new Error('An unknown error occurred, email us or sumpn');
+  }
+  async sendData(nextStep) {
+    const data = this.state.data;
+    const body = {
+      code: data.rsvpCode,
+      props: {
+        secret: this.state.secret,
+        Submitted: new Date().toUTCString(),
+        RSVP: data.rsvp,
+        Headcount: data.headcount || 0,
+        Tue: data.day1 ? 1 : 0,
+        Wed: data.day2 ? 1 : 0,
+        Thur: data.day3 ? 1 : 0,
+        Fri: data.day4 ? 1 : 0,
+        Sat: data.day5 ? 1 : 0,
+      },
+    };
+    this.setState({ loading: true });
+    const response = await fetch(API, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    });
+    this.setState({ loading: false });
+    if (response.status === 200) {
+      return this.setState({
+        prevStep: RSVP_STEP,
+        formStep: nextStep,
+      });
+    }
+    throw new Error('An unknown error occurred, email us or sumpn');
+  }
+  async submit(evt) {
     evt.preventDefault();
     switch (this.state.formStep) {
       case VERIFY_STEP:
-        if (this.state.data.rsvpCode /* VALIDATE */) {
-          this.setState({
+        try {
+          this.setState({ loading: true });
+          const guest = await this.validate(this.state.data.rsvpCode);
+          return this.setState({
+            prevStep: VERIFY_STEP,
             formStep: RSVP_STEP,
+            guestName: guest.Guest,
+            secret: guest.secret,
+            totalGuestsAllowed: Number(guest.Pluses) + 1,
             error: {},
+            loading: false,
           });
-        } else {
-          this.setState({
+        } catch (err) {
+          return this.setState({
             error: {
-              rsvpCode: 'Your RSVP code is required to continue',
+              rsvpCode: err.message,
             },
+            loading: false,
           });
         }
-        break;
       case RSVP_STEP:
         if (this.state.data.rsvp === 'yes') {
-          this.setState({
+          return this.setState({
+            prevStep: RSVP_STEP,
             formStep: CALENDAR_STEP,
             error: {},
           });
         } else if (this.state.data.rsvp === 'no') {
-          this.setState({
-            formStep: SORRY_STEP,
-            error: {},
-          });
-        } else {
-          this.setState({
-            error: {
-              rsvpNo: 'Please choose an option',
-            },
-          });
+          this.setState({ error: {}, message: 'But we understand, thank you for letting us know.' });
+          return this.sendData(SORRY_STEP);
         }
-        break;
+        return this.setState({
+          error: {
+            rsvpNo: 'Please choose an option',
+          },
+        });
       case CALENDAR_STEP:
         if (this.getDays().length > 0 && this.state.data.headcount) {
-          this.setState({
-            formStep: EVENT_STEP,
-            error: {},
-          });
-        } else {
-          this.setState({
-            error: {
-              days: this.getDays().length === 0 && 'Please choose at least one day',
-              headcount: !this.state.data.headcount && 'Please choose at least one day',
-            },
-          });
+          this.setState({ error: {}, message: 'Thank you for RSVPing, we can\'t wait to see you in Italy!' });
+          return this.sendData(SUCCESS_STEP);
         }
-        break;
+        return this.setState({
+          error: {
+            days: this.getDays().length === 0 && 'You gotta stay at least one day',
+            headcount: !this.state.data.headcount && 'Please select "1" at the least',
+          },
+        });
       default:
         throw new Error('form step not configured');
     }
   }
   render() {
-    console.log(this.state.data);
     return (
       <div>
-        <button className="big-button" onClick={this.openDialog}>RSVP</button>
+        <button className="md-button" onClick={this.openDialog}>RSVP</button>
         {this.state.isDialogOpen &&
           <div className={`dialog-screen ${this.state.dialogAnimated}`} onClick={this.closeDialog}>
             <div className={`dialog ${this.state.dialogAnimated}`} onClick={evt => evt.stopPropagation()}>
               <button className="close" onClick={this.closeDialog}>&times;</button>
-                <form onSubmit={this.submit}>
-                  {this.state.formStep === VERIFY_STEP &&
-                    <div>
-                      <h2>Code</h2>
-                      <Input
-                        name="What is your RSVP code?"
-                        type="text"
-                        placeholder="XXXXX"
-                        maxLength="5"
-                        value={this.state.data.rsvpCode}
-                        onChange={this.set('rsvpCode', val => val.toUpperCase())}
-                        error={this.state.error.rsvpCode}
-                      />
-                    </div>
-                  }
-                  {this.state.formStep === RSVP_STEP &&
-                    <div>
-                      <h2>RSVP</h2>
-                      <div className="form-heading">
-                        Will you be able to join us in Positano?
+              {this.state.formStep === SUCCESS_STEP || this.state.formStep === SORRY_STEP
+                ? (
+                    <form>
+                      <h2>{this.state.formStep}</h2>
+                      <p>{this.state.message}</p>
+                      <button className="md-button" onClick={this.closeDialog}>Done</button>
+                    </form>
+                  )
+                : (
+                    <form onSubmit={this.submit}>
+                      {this.state.formStep === VERIFY_STEP &&
+                        <div>
+                          <h2>Code</h2>
+                          <Input
+                            name="What is your RSVP code?"
+                            type="text"
+                            placeholder="XXXXX"
+                            maxLength="5"
+                            value={this.state.data.rsvpCode}
+                            onChange={this.set('rsvpCode', val => val.toUpperCase())}
+                            error={this.state.error.rsvpCode}
+                          />
+                        </div>
+                      }
+                      {this.state.formStep === RSVP_STEP &&
+                        <div>
+                          <h2>Ciao, {this.state.guestName}!</h2>
+                          <div className="form-heading">
+                            Will you be able to join us in Positano?
+                          </div>
+                          <Input
+                            name="Yes!"
+                            formName="rsvp"
+                            type="radio"
+                            value="yes"
+                            checked={this.state.data.rsvp === 'yes'}
+                            onChange={this.set('rsvp', x => 'yes')}
+                          />
+                          <Input
+                            name="Unfortunately, we can't make it."
+                            formName="rsvp"
+                            type="radio"
+                            value="no"
+                            checked={this.state.data.rsvp === 'no'}
+                            onChange={this.set('rsvp', x => 'no')}
+                            error={this.state.error.rsvpNo}
+                          />
+                        </div>
+                      }
+                      {this.state.formStep === CALENDAR_STEP &&
+                        <div>
+                          <h2>Trips Details</h2>
+                          <div className="form-heading">
+                            How many people are in your party?
+                          </div>
+                          {new Array(this.state.totalGuestsAllowed).fill(null).map((x, i) => i + 1).map(i => (
+                            <Input
+                              key={i}
+                              name={`${i}`}
+                              formName="headcount"
+                              type="radio"
+                              value={`${i}`}
+                              checked={this.state.data.headcount === i}
+                              onChange={this.set('headcount', x => i)}
+                              error={i === 5 && this.state.error.headcount}
+                            />
+                          ))}
+                          <div className="form-heading">
+                            Which days will you be in Positano?
+                          </div>
+                          {DAYS.map((day, i) => (
+                            <Input
+                              key={day}
+                              name={day}
+                              type="checkbox"
+                              checked={this.state.data[`day${i+1}`] || false}
+                              onChange={this.set(`day${i+1}`)}
+                              error={i === 4 && this.state.error.days}
+                            />
+                          ))}
+                        </div>
+                      }
+                      <div className="form-nav">
+                        {this.state.formStep !== VERIFY_STEP &&
+                          <button className="md-button gray-button" onClick={this.prevStep}>Prev</button>
+                        }
+                        <button className="md-button" disabled={this.state.loading ? 'disabled' : null}>
+                          {this.state.loading
+                            ? <Loader />
+                            : 'Next'
+                          }
+                        </button>
                       </div>
-                      <Input
-                        name="Yes!"
-                        formName="rsvp"
-                        type="radio"
-                        value="yes"
-                        checked={this.state.data.rsvp === 'yes'}
-                        onChange={this.set('rsvp', x => 'yes')}
-                      />
-                      <Input
-                        name="Unfortunately, we can't make it."
-                        formName="rsvp"
-                        type="radio"
-                        value="no"
-                        checked={this.state.data.rsvp === 'no'}
-                        onChange={this.set('rsvp', x => 'no')}
-                        error={this.state.error.rsvpNo}
-                      />
-                    </div>
-                  }
-                  {this.state.formStep === CALENDAR_STEP &&
-                    <div>
-                      <h2>Trips Details</h2>
-                      <div className="form-heading">
-                        How many people are in your party?
-                      </div>
-                      {[1, 2, 3, 4, 5].map(i => (
-                        <Input
-                          key={i}
-                          name={`${i}`}
-                          formName="headcount"
-                          type="radio"
-                          value={`${i}`}
-                          checked={this.state.data.headcount === i}
-                          onChange={this.set('headcount', x => i)}
-                          error={i === 5 && this.state.error.headcount}
-                        />
-                      ))}
-                      <div className="form-heading">
-                        Which days will you be in Positano?
-                      </div>
-                      {DAYS.map((day, i) => (
-                        <Input
-                          key={day}
-                          name={day}
-                          type="checkbox"
-                          checked={this.state.data[`day${i+1}`] || false}
-                          onChange={this.set(`day${i+1}`)}
-                          error={i === 4 && this.state.error.days}
-                        />
-                      ))}
-                    </div>
-                  }
-                  {this.state.formStep === EVENT_STEP &&
-                    <div>
-                      <h2>Events</h2>
-                      <div className="form-heading">
-                        Please choose which events you'd like to RSVP for:
-                      </div>
-                      <Input
-                        name="Day trip to Capri"
-                        type="checkbox"
-                        checked={this.state.data.eventCapri || false}
-                        onChange={this.set('eventCapri')}
-                      />
-                    </div>
-                  }
-                  <div className="form-nav">
-                    {this.state.formStep !== VERIFY_STEP &&
-                      <button className="md-button gray-button" onClick={this.prevStep}>Prev</button>
-                    }
-                    <button className="md-button">Next</button>
-                  </div>
-                </form>
+                    </form>
+                  )
+              }
             </div>
           </div>
         }

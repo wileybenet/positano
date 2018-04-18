@@ -30,9 +30,9 @@ export default function Wedding() {
           our door is open to you the whole time. The wedding will take place at 5 pm, we will have
           a very casual Italian dinner afterwards, with lots of drinks and fun.
         </Copy>
-        <Copy>
+        {/* <Copy>
           <RSVP />
-        </Copy>
+        </Copy> */}
       </Content>
     </Layout>
   );

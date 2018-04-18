@@ -45,8 +45,8 @@ export default function Itinerary() {
             September 18<sup>th</sup>
           </SubHeading>
           <Copy>
-            Depart Rome for Pompei on 7 am train, transfer in Naples. Train from Pompei to Salerno at 2 pm, on 3:30 ferry to Positano.
-            (approximately 5 hours in Pompei)
+            Depart Rome for Pompei on 8:48am Trenitalia train, transfer in Naples. Train from Pompei to Sorento at 2:06pm, catching the 2:55 ferry to Positano.
+            (approximately 3 hours in Pompei)
           </Copy>
         </Content>
       </Image>
@@ -66,7 +66,7 @@ export default function Itinerary() {
             September 20<sup>th</sup>
           </SubHeading>
           <Copy>
-            Bus to Fjordo Furore beach in the morning. Pool party at Villa Oliviero at 3 pm.
+            Bus to Fjordo Furore beach in the morning. Pool party (our version of a rehersal dinner) at Villa Oliviero at 2pm.
           </Copy>
         </Content>
       </Image>

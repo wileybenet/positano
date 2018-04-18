@@ -31,10 +31,10 @@ export default function Index() {
           On this website, you’ll find information about the wedding day, places to stay and
           activities we have planned.
         </Copy>
-        <Heading>RSVP</Heading>
+        {/* <Heading>RSVP</Heading>
         <Copy>
           <RSVP />
-        </Copy>
+        </Copy> */}
       </Content>
     </Layout>
   );

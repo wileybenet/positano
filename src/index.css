@@ -44,7 +44,6 @@ html, body, #root, #root > div, #root > div > div {
   border-radius: 4px;
   margin: 40px 0;
   cursor: pointer;
-  width: 100%;
   font-size: 16px;
 }
 
@@ -58,9 +57,14 @@ html, body, #root, #root > div, #root > div > div {
   border-radius: 4px;
   margin-top: 20px;
   cursor: pointer;
-  width: 100%;
   font-size: 18px;
   text-transform: uppercase;
+  width: 100%;
+  outline: 0;
+}
+
+.md-button:focus {
+  outline: 0;
 }
 
 .gray-button {
