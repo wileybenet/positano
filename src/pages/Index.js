@@ -13,7 +13,7 @@ preloadJPG(IMAGE);
 //   console.log('submitted');
 // };
 
-export default function Index() {
+export default function Index({ match: { path } }) {
   return (
     <Layout theme={{colorScheme: 'light', image: IMAGE, height: 1000, speed: 6}}>
       <Content>
@@ -31,10 +31,13 @@ export default function Index() {
           On this website, you’ll find information about the wedding day, places to stay and
           activities we have planned.
         </Copy>
-        {/* <Heading>RSVP</Heading>
+        <Heading>RSVP</Heading>
         <Copy>
-          <RSVP />
-        </Copy> */}
+          Let us know if you're coming!
+        </Copy>
+        <Copy>
+          <RSVP openOnLoad={path === '/rsvp'} />
+        </Copy>
       </Content>
     </Layout>
   );

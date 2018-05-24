@@ -28,11 +28,12 @@ export default function App() {
           atActive={{ opacity: 1 }}
           className="switch-wrapper"
         >
-          <Route location={window.location} exact path="/" component={Index}/>
-          <Route location={window.location} path="/wedding" component={Wedding}/>
-          <Route location={window.location} path="/location" component={Location}/>
-          <Route location={window.location} path="/itinerary" component={Itinerary}/>
-          <Route location={window.location} path="/registry" component={Registry}/>
+          <Route location={window.location} exact path="/" component={Index} />
+          <Route location={window.location} path="/rsvp" component={Index} />
+          <Route location={window.location} path="/wedding" component={Wedding} />
+          <Route location={window.location} path="/location" component={Location} />
+          <Route location={window.location} path="/itinerary" component={Itinerary} />
+          <Route location={window.location} path="/registry" component={Registry} />
         </AnimatedSwitch>
       </ScrollToTop>
     </Router>
