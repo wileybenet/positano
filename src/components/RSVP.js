@@ -294,22 +294,22 @@ class RSVP extends React.Component {
                         <div>
                           <h2>Events</h2>
                           <div className="form-heading">
-                            Would you like to join us on a guided tour of Pompeii? (Sept 18th, ~20&euro;)
+                            Would you like to join us on a guided tour of Pompeii? (Sept 18th, ~40&euro;)
                           </div>
                           <YesNo
                             yes="Yes"
                             no="No, thank you"
-                            checkedValue={this.state.data.pompeii > -1 ? this.state.data.pompeii ? 'yes' : 'no' : null}
+                            checkedValue={Number(this.state.data.pompeii) > -1 ? this.state.data.pompeii ? 'yes' : 'no' : null}
                             onChange={(evt, value) => this.set('pompeii', () => value === 'yes')(evt)}
                             error={this.state.error.pompeii}
                           />
                           <div className="form-heading">
-                            Would you like to join us on a chartered boat to Capri? (Sept 19th, ~70&euro;)
+                            Would you like to join us on a chartered boat to Capri? (Sept 19th, ~90&euro;)
                           </div>
                           <YesNo
                             yes="Yes"
                             no="No, thank you"
-                            checkedValue={this.state.data.capri > -1 ? this.state.data.capri ? 'yes' : 'no' : null}
+                            checkedValue={Number(this.state.data.capri) > -1 ? this.state.data.capri ? 'yes' : 'no' : null}
                             onChange={(evt, value) => this.set('capri', () => value === 'yes')(evt)}
                             error={this.state.error.capri}
                           />
